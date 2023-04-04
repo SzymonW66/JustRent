@@ -1,4 +1,4 @@
-package com.JustRent.model;
+package com.JustRent.models;
 
 
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.JustRent.controller;
+package com.JustRent.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
