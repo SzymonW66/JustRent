@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Login</title>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #4a80f0, #7f57f4);
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        p {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-back {
+            display: block;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4a80f0;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background-color: #4a80f0;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Error Login</h1>
+<p th:text="${errorMessage}"></p>
+<a href="/login" class="btn-back">Back</a>
+</body>
+</html>
