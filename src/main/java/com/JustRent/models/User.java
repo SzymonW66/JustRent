@@ -28,10 +28,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column (name = "role")
+    @Column(name = "role")
     private String role;
 
-    @Column (name = "email")
+    @Column(name = "email")
     private String email;
 
     public Long getId() {
