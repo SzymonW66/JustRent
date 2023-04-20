@@ -4,13 +4,18 @@ import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.User;
 import com.JustRent.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Arrays;
-
+@RequiredArgsConstructor
+@Service
+@Transactional
 public class UserService implements IUserServices {
-    @Autowired
-    private UserRepository repository;
+
+    private final UserRepository repository;
 
     @Override
     public User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
@@ -33,3 +38,4 @@ public class UserService implements IUserServices {
         return repository.findByEmail(email) != null;
     }
 }
+//wstrzykiwanie autowired na polu nie jest spoko

@@ -1,25 +1,37 @@
 package com.JustRent.controllers;
 
+import com.JustRent.configurations.SecurityConfiguration;
+import com.JustRent.configurations.WebMvcConfiguration;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.User;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.JustRent.services.UserService;
 @Controller
-public class RegistrationController {
+@RequiredArgsConstructor
+public class UserController {
 
-    @Autowired
-    private UserService userService;
+   private final UserService userService;
+   private final WebMvcConfiguration webMvcConfiguration;
+   private final SecurityConfiguration securityConfiguration;
 
-    @GetMapping("/user/registration")
+   @GetMapping("/home")
+   public String home1() {
+       return "home";
+   }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
@@ -28,12 +40,12 @@ public class RegistrationController {
 
     @PostMapping("/user/registration")
     public ModelAndView registerUserAccount(
-            @ModelAttribute("user") @Valid UserDto userDto, Errors errors) {
+            @ModelAttribute("user") @Valid UserDto userDto) {
         ModelAndView mav = new ModelAndView();
 
         try {
             User registered = userService.registerNewUserAccount(userDto);
-            mav.setViewName("successRegister");
+            mav.setViewName("home");
             mav.addObject("user", userDto);
             return mav;
         } catch (UserAlreadyExistException uaeEx) {
