@@ -1,17 +1,25 @@
 package com.JustRent.configurations;
 
 import ch.qos.logback.classic.Logger;
+import com.JustRent.services.UserService;
 import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.ui.Model;
@@ -24,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @NoArgsConstructor(force = true)
 public class SecurityConfiguration {
 
-    private final CustomAuthenticationFilter customAuthenticationFilter;
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user1 = User.withUsername("user1")
@@ -66,7 +73,7 @@ public class SecurityConfiguration {
 //                .deleteCookies("JSESSIONID");
         return http.build();
     }
-  //  filtrowanie kto ma jaką role i na co wchodzi
+    //  filtrowanie kto ma jaką role i na co wchodzi
 
     @ControllerAdvice
     public class ErrorController {
@@ -83,5 +90,17 @@ public class SecurityConfiguration {
         }
 
     }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
 
 }
