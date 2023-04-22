@@ -5,13 +5,16 @@ import com.JustRent.configurations.WebMvcConfiguration;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.User;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import com.JustRent.services.UserService;
 @Controller
@@ -32,27 +35,27 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(WebRequest request, Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
         return "registration";
     }
 
-    @PostMapping("/user/registration")
+    @PostMapping("/registration")
     public ModelAndView registerUserAccount(
-            @ModelAttribute("user") @Valid UserDto userDto) {
-        ModelAndView mav = new ModelAndView();
+            @ModelAttribute("user") @Valid UserDto userDto,
+            HttpServletRequest request,
+            Errors errors) {
 
         try {
             User registered = userService.registerNewUserAccount(userDto);
-            mav.setViewName("home");
-            mav.addObject("user", userDto);
-            return mav;
         } catch (UserAlreadyExistException uaeEx) {
-            mav.setViewName("registration");
+            ModelAndView mav = null;
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;
         }
+
+        return new ModelAndView("successRegister", "user", userDto);
     }
 }
 

@@ -3,40 +3,46 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Registration | JustRent</title>
+    <title>form</title>
 </head>
 <body>
-<div id="registration-container">
-    <form id="registration-box" th:action="@{/registration}" method="post" >
-       <h2>Register new account in JustRent</h2>
-            <label for="name">First Name</label>
-            <input type="text" id="name" name="name" required>
-            <p th:each="error : ${#fields.errors('name')}" th:text="${error}">Validation error</p>
-
-        <div>
-            <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="lastname" required>
-            <p th:each="error : ${#fields.errors('lastname')}" th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label for="email">email</label>
-            <input type="email" id="email" name="email" required>
-            <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label for="password">password</label>
-            <input type="password" id="password" name="password" required>
-            <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label for="passwordConfrim">confirm</label>
-            <input type="password" id="passwordConfrim" name="passwordConfrim">
-        </div>
-        <button type="submit">submit</button>
-    </form>
-
-    <a th:href="@{/login.html}">Go to page login</a>
-</div>
-
+<h1 th:text="#{/label.form.title}">form</h1>
+<form action="@{/registration" th:object="${user}" method="POST" enctype="UTF-8">
+    <div>
+        <div>First Name</div>
+        <label>
+            <input th:field="*{name}" type="text">
+        </label>
+        <p th:each="error : ${#fields.errors('name')}" th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div>Last Name</div>
+        <label>
+            <input th:field="*{surname}" type="text">
+        </label>
+        <p th:each="error : ${#fields.errors('surname')}" th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div>Email</div>
+        <label>
+            <input th:field="*{email}" type="email">
+        </label>
+        <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div>Password</div>
+        <label>
+            <input th:field="*{password}" type="password">
+        </label>
+        <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div>Confirm Password</div>
+        <label>
+            <input th:field="*{matchingPassword}" type="password">
+        </label>
+    </div>
+    <button type="submit">submit</button>
+</form>
 </body>
 </html>

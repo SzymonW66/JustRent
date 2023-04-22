@@ -9,11 +9,11 @@ import jakarta.validation.constraints.NotNull;
 public class UserDto {
     @NotNull
     @NotEmpty
-    private String firstName;
+    private String name;
 
     @NotNull
     @NotEmpty
-    private String lastName;
+    private String surname;
 
     @NotNull
     @NotEmpty
@@ -24,20 +24,20 @@ public class UserDto {
     @NotEmpty
     private String email;
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPassword() {

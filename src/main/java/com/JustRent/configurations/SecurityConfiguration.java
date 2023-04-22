@@ -48,10 +48,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().and()
                 .authorizeRequests()
+                .requestMatchers("/home").permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/registration").permitAll()
-                .requestMatchers("/admin/**").permitAll()
-                .requestMatchers("/anonymous*").permitAll()
+//                .requestMatchers("/admin/**").permitAll()
+//                .requestMatchers("/anonymous*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

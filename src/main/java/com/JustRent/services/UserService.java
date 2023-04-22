@@ -24,18 +24,16 @@ public class UserService implements IUserServices {
         }
 
         User user = new User();
-        user.setName(userDto.getFirstName());
-        user.setSurname(userDto.getLastName());
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
         user.setRole(String.valueOf(Arrays.asList("ROLE_USER")));
 
         return repository.save(user);
-        //rejestruje nowego usera
     }
 
     private boolean emailExists(String email) {
         return repository.findByEmail(email) != null;
     }
 }
-//wstrzykiwanie autowired na polu nie jest spoko
