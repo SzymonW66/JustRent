@@ -1,11 +1,9 @@
 package com.JustRent.dto;
 
-import com.JustRent.validators.PasswordMatches;
-import com.JustRent.validators.ValidEmail;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@PasswordMatches
+
 public class UserDto {
     @NotNull
     @NotEmpty
@@ -19,7 +17,6 @@ public class UserDto {
     @NotEmpty
     private String password;
     private String matchingPassword;
-    @ValidEmail
     @NotNull
     @NotEmpty
     private String email;

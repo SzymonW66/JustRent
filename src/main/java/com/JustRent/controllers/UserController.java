@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,21 +42,42 @@ public class UserController {
         return "registration";
     }
 
-    @PostMapping("/registration")
-    public ModelAndView registerUserAccount(
-            @ModelAttribute("user") @Valid UserDto userDto,
-            HttpServletRequest request,
-            Errors errors) {
+//    @PostMapping("/registration/save")
+//    public ModelAndView registerUserAccount(
+//            @ModelAttribute("user") @Valid UserDto userDto,
+//            HttpServletRequest request,
+//            Errors errors) {
+//
+//        try {
+//            User registered = userService.registerNewUserAccount(userDto);
+//        } catch (UserAlreadyExistException uaeEx) {
+//            ModelAndView mav = null;
+//            mav.addObject("message", "An account for that username/email already exists.");
+//            return mav;
+//        }
+//
+//        return new ModelAndView("successRegister", "user", userDto);
+//    }
 
-        try {
-            User registered = userService.registerNewUserAccount(userDto);
-        } catch (UserAlreadyExistException uaeEx) {
-            ModelAndView mav = null;
-            mav.addObject("message", "An account for that username/email already exists.");
-            return mav;
+    @PostMapping("/registration/save")
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+                               BindingResult result,
+                               Model model) throws UserAlreadyExistException {
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+
+        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
         }
 
-        return new ModelAndView("successRegister", "user", userDto);
+        if(result.hasErrors()){
+            model.addAttribute("user", userDto);
+            return "/registration";
+        }
+
+
+            userService.registerNewUserAccount(userDto);
+            return "redirect:/registration?success";
     }
 }
 

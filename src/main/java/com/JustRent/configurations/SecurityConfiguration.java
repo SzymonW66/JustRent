@@ -46,23 +46,24 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().and()
+        http.csrf().disable()
                 .authorizeRequests()
                 .requestMatchers("/home").permitAll()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/registration").permitAll()
+                .requestMatchers("/login/**").permitAll()
+                .requestMatchers("/registration/**").permitAll()
 //                .requestMatchers("/admin/**").permitAll()
 //                .requestMatchers("/anonymous*").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/home.", true)
-                .and()
-                .logout()
-                .logoutUrl("/perform_logout")
-                .deleteCookies("JSESSIONID");
+                .defaultSuccessUrl("/homepage", true)
+                .failureUrl("/loginError");
+//                .and()
+//                .logout()
+//                .logoutUrl("/perform_logout")
+//                .deleteCookies("JSESSIONID");
         return http.build();
     }
   //  filtrowanie kto ma jaką role i na co wchodzi
