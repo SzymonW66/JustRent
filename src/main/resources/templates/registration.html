@@ -4,24 +4,189 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Registration and Login System</title>
+    <title>Sing Up | JustRent</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <style>
+        :root {
+            --primary-color: #a48aff;
+            --secondary-color: #28a745;
+            --tertiary-color: #FFC300;
+            --bg-color: #f4f4f4;
+            --text-color: #2e2e2e;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+        }
+
+
+        nav {
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: space-between;
+
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+        }
+
+
+
+        section {
+            padding: 20px;
+        }
+
+        section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        section p {
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .form-group label {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #6245b6;
+            border-color: #6245b6;
+        }
+
+        .alert-danger, .alert-success {
+            font-weight: bold;
+        }
+
+        /* Styl karty */
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .card {
+            border-color: var(--primary-color);
+        }
+
+        .card:hover {
+            border-color: #6245b6;
+        }
+
+        /* Dodatkowy styl dla sekcji "features" */
+        #features {
+            background-color: var(--tertiary-color);
+            color: white;
+            padding: 40px;
+        }
+
+        .feature {
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            line-height: 1.5;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .feature-icon span {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Styl dla sekcji pricing */
+        .pricing {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .pricing .card {
+            margin: 0 10px;
+        }
+
+        .pricing .card-header {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .pricing .card-body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        .pricing .card-body ul {
+            margin-bottom: 20px;
+        }
+
+        .pricing .card-body ul li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
+        <a class="navbar-brand" th:href="@{/start}">JustRent</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-                </li>
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>-->
+                <!--                </li>-->
             </ul>
         </div>
     </div>
@@ -31,7 +196,7 @@
     <div class="row col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                <h2 class="text-center">Registration</h2>
+                <h2 class="text-center">Sign up for JustRent</h2>
             </div>
             <div th:if="${param.success}">
                 <div class="alert alert-info">

@@ -5,13 +5,11 @@ import com.JustRent.configurations.WebMvcConfiguration;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.User;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,13 +31,19 @@ public class UserController {
     private final SecurityConfiguration securityConfiguration;
     private final AuthenticationManager authenticationManager;
 
-    @GetMapping("/home")
-    public String home1() {
-        return "home";
+    @GetMapping("/start")
+    public String home() {
+             return "start";
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model, String error, String logout) {
+        if (error != null) {
+            model.addAttribute("error", "Invalid email or password.");
+        }
+        if (logout != null) {
+            model.addAttribute("logout", "You have been logged out successfully.");
+        }
         return "login";
     }
 
@@ -48,6 +52,11 @@ public class UserController {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
         return "registration";
+    }
+
+    @GetMapping("/homepage")
+    public String homepage() {
+        return "homepage";
     }
 
     @PostMapping("/registration/save")
@@ -65,38 +74,14 @@ public class UserController {
             model.addAttribute("user", userDto);
             return "/registration";
         }
-
-
         userService.registerNewUserAccount(userDto);
         return "redirect:/registration?success";
     }
-
     @PostMapping("/login")
-    public String login(
-            @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            Model model,
-            HttpServletRequest request) {
-
-        if (error != null) {
-            model.addAttribute("error", "Invalid email and password.");
-        }
-
-        if (logout != null) {
-            model.addAttribute("message", "You have been logged out successfully.");
-        }
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
-        try {
-            Authentication authentication = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "redirect:/home";
-        } catch (AuthenticationException ex) {
-            model.addAttribute("error", "Invalid email and password.");
-            return "login";
-        }
+    public String login(@RequestParam String username, @RequestParam String password) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "redirect:/homepage";
     }
 }
 

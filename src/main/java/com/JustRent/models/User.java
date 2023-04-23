@@ -3,7 +3,7 @@ package com.JustRent.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+
 @Entity
 @Getter
 @Setter
