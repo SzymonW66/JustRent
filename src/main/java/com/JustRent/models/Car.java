@@ -41,7 +41,7 @@ public class Car {
     @Column(name = "power")
     private int power;
 
-    @Column(name = "dimension")
+    @Column(name = "dimensions")
     private String dimensions;
 
     @Column(name = "number_of_seats")
