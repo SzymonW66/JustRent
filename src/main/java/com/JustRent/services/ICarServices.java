@@ -6,7 +6,7 @@ import com.JustRent.models.Car;
 import java.util.List;
 
 public interface ICarServices {
-    Car addNewCarToRent (CarDto carDto);
+    Car addNewCarToRent (CarDto carDto, Long loggedInUserId);
     Car findCarByName (String brand, String model);
     List<CarDto> findAllCars();
 

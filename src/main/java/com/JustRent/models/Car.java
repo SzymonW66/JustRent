@@ -59,11 +59,8 @@ public class Car {
     @Column(name = "rental_price_daily_above_10")
     private double rentalPriceDailyAbove10;
 
-    public Car(Long id, String brand, String model) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-    }
+    @Column(name = "UserId")
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -90,5 +87,108 @@ public class Car {
     }
 
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public double getEngineCapacity() {
+        return engineCapacity;
+    }
+
+    public void setEngineCapacity(double engineCapacity) {
+        this.engineCapacity = engineCapacity;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public String getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    public double getRentalPriceHourly() {
+        return rentalPriceHourly;
+    }
+
+    public void setRentalPriceHourly(double rentalPriceHourly) {
+        this.rentalPriceHourly = rentalPriceHourly;
+    }
+
+    public double getRentalPriceDailyUpTo5() {
+        return rentalPriceDailyUpTo5;
+    }
+
+    public void setRentalPriceDailyUpTo5(double rentalPriceDailyUpTo5) {
+        this.rentalPriceDailyUpTo5 = rentalPriceDailyUpTo5;
+    }
+
+    public double getRentalPriceDaily5To10() {
+        return rentalPriceDaily5To10;
+    }
+
+    public void setRentalPriceDaily5To10(double rentalPriceDaily5To10) {
+        this.rentalPriceDaily5To10 = rentalPriceDaily5To10;
+    }
+
+    public double getRentalPriceDailyAbove10() {
+        return rentalPriceDailyAbove10;
+    }
+
+    public void setRentalPriceDailyAbove10(double rentalPriceDailyAbove10) {
+        this.rentalPriceDailyAbove10 = rentalPriceDailyAbove10;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
 

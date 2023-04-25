@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/start").permitAll()
                 .requestMatchers("/login/**").permitAll()
                 .requestMatchers("/registration/**").permitAll()
+//                .requestMatchers("/add-car/**").hasRole("USER")
 //                .requestMatchers("/admin/**").permitAll()
 //                .requestMatchers("/anonymous*").permitAll()
 //                .anyRequest().authenticated()
@@ -84,7 +85,6 @@ public class SecurityConfiguration {
         }
 
     }
-
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -95,6 +95,4 @@ public class SecurityConfiguration {
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 }

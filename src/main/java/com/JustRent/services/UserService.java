@@ -1,15 +1,24 @@
 package com.JustRent.services;
 
+import com.JustRent.configurations.SecurityConfiguration;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.User;
 import com.JustRent.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +29,7 @@ public class UserService implements IUserServices {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final DataSource dataSource;
 
     @Override
     public User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
@@ -62,4 +72,20 @@ public class UserService implements IUserServices {
     private boolean emailExists(String email) {
         return repository.findByEmail(email) != null;
     }
+
+    public Long getUserIdByEmail(String email) {
+        System.out.println(email);
+        if (emailExists(email) == true) {
+            String query = "SELECT id FROM user WHERE email = :email";
+            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+            SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
+            Long userId = template.queryForObject(query, param, Long.class);
+            return userId;
+        }
+        else
+            return null;
+    }
+
+
+
 }

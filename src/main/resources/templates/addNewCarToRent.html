@@ -93,6 +93,7 @@
     <input type="number" id="rentalPriceDaily5To10" name="rentalPriceDaily5To10" min="0" required><br><br>
     <label for="rentalPriceDailyAbove10">Rental Price (per Day - above 10 days):</label>
     <input type="number" id="rentalPriceDailyAbove10" name="rentalPriceDailyAbove10" min="0" required><br><br>
+    <input type="hidden" id="userId" name="userId" th:value="${loggedInUserId}" />
     <button type="submit">Add Car</button>
 </form>
 </body>

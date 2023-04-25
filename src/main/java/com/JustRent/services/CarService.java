@@ -20,7 +20,7 @@ public class CarService implements ICarServices {
     private final CarRepository carRepository;
 
     @Override
-    public Car addNewCarToRent(CarDto carDto) {
+    public Car addNewCarToRent(CarDto carDto, Long loggedInUserId) {
        Car car = new Car();
        car.setBrand(carDto.getBrand());
        car.setModel(carDto.getModel());
@@ -36,6 +36,7 @@ public class CarService implements ICarServices {
        car.setRentalPriceDailyUpTo5(carDto.getRentalPriceDailyUpTo5());
        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDaily5To10());
        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDailyAbove10());
+       car.setUserId(loggedInUserId);
        return carRepository.save(car);
     }
 
@@ -68,6 +69,7 @@ public class CarService implements ICarServices {
         carDto.setRentalPriceDailyUpTo5(car.getRentalPriceDailyUpTo5());
         carDto.setRentalPriceDaily5To10(car.getRentalPriceDaily5To10());
         carDto.setRentalPriceDailyAbove10(car.getRentalPriceDailyAbove10());
+        carDto.setUserId(car.getUserId());
         return carDto;
     }
 }

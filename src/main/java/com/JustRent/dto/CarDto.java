@@ -61,6 +61,10 @@ public class CarDto {
     @NotEmpty
     private double rentalPriceDailyAbove10;
 
+    @NotNull
+    @NotEmpty
+    private Long userId;
+
     public String getBrand() {
         return brand;
     }
@@ -171,5 +175,13 @@ public class CarDto {
 
     public void setRentalPriceDailyAbove10(double rentalPriceDailyAbove10) {
         this.rentalPriceDailyAbove10 = rentalPriceDailyAbove10;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
