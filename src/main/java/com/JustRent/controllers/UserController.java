@@ -5,6 +5,7 @@ import com.JustRent.configurations.WebMvcConfiguration;
 import com.JustRent.dto.CarDto;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
+import com.JustRent.models.Car;
 import com.JustRent.models.User;
 import com.JustRent.repositories.UserRepository;
 import com.JustRent.services.CarService;
@@ -20,10 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import com.JustRent.services.UserService;
 
@@ -132,7 +130,8 @@ public class UserController {
     @GetMapping("/add-car")
     private String addNewCar(Model model, HttpSession session ) {
         Long loggedInUserId = (Long) session.getAttribute("userId");
-        System.out.println(loggedInUserId);
+
+        System.out.println(loggedInUserId + " " + "loggedInUserID");
         if (loggedInUserId == null) {
             System.out.println("Unable to get user ID for id ") ;
             return "redirect:/homepage"; // nie udało się pobrać ID użytkownika, przekieruj na stronę główną
@@ -141,6 +140,20 @@ public class UserController {
         model.addAttribute("userId", loggedInUserId);
         model.addAttribute("car", new CarDto());
         return "addNewCarToRent";
+    }
+
+    @GetMapping("/car-list")
+    public String getCars(Model model) {
+        List<Car> cars = carService.getAllCars();
+        model.addAttribute("cars", cars);
+        return "car-list";
+    }
+
+    @GetMapping("/car-details/{id}")
+    public String getCarDetails(@PathVariable("id") Long id, Model model) {
+        Car car = carService.getCarById(id);
+        model.addAttribute("car", car);
+        return "car-details";
     }
 }
 

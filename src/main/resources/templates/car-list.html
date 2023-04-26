@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cars | JustRent</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .car-tile {
+      margin-bottom: 20px;
+    }
+
+    .car-image {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .rental-prices {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Car Tiles</h1>
+  <div class="row">
+    <!-- Loop through each car and create a tile -->
+    <th:block th:each="car : ${cars}">
+      <div class="col-md-4 car-tile">
+        <div class="card">
+          <img class="card-img-top car-image" th:src="@{|data:image/jpeg;base64,${car.image != null ? car.image : 'nophoto.jpg'}|}" alt="Car Image">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${car.brand + ' ' + car.model}"></h5>
+            <p class="card-text" th:text="${'Year of Production:\n' + car.year}"></p>
+            <p class="card-text" th:text="${'Number plate:\n' + car.registrationNumber}"></p>
+            <p class="card-text" th:text="${'Mileage: ' + car.mileage + ' km'}"></p>
+            <p class="card-text" th:text="${'Engine Capacity: ' + car.engineCapacity + 'L, ' + car.power + 'HP'}"></p>
+            <p class="card-text" th:text="${'Fuel Type: ' + car.fuelType}"></p>
+            <p class="card-text" th:text="${'Dimensions: ' + car.dimensions + 'cm'}"></p>
+            <p class="card-text" th:text="${'Number of Seats: ' + car.numberOfSeats}"></p>
+            <div class="rental-prices">
+              <p class="card-text text-success font-weight-bold" th:text="${'Hourly Rental Price: $' + car.rentalPriceHourly}"></p>
+              <a th:href="@{'/car-details/' + ${car.id}}" class="btn btn-primary">More details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </th:block>
+  </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

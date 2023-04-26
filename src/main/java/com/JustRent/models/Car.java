@@ -59,6 +59,10 @@ public class Car {
     @Column(name = "rental_price_daily_above_10")
     private double rentalPriceDailyAbove10;
 
+    @Column (name = "photo")
+    @Lob
+    private byte[] image;
+
     @Column(name = "UserId")
     private Long userId;
 
@@ -189,6 +193,13 @@ public class Car {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
 

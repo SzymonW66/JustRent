@@ -56,7 +56,7 @@
 <div style="margin-bottom: 30px">
 
 </div>
-<form method="post" th:action="@{/add-car}">
+<form method="post" th:action="@{/add-car}" enctype="multipart/form-data">
     <div class="center">
         <div class="title">Add new car to rent</div>
     </div>
@@ -93,6 +93,8 @@
     <input type="number" id="rentalPriceDaily5To10" name="rentalPriceDaily5To10" min="0" required><br><br>
     <label for="rentalPriceDailyAbove10">Rental Price (per Day - above 10 days):</label>
     <input type="number" id="rentalPriceDailyAbove10" name="rentalPriceDailyAbove10" min="0" required><br><br>
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" name="photo" accept="image/*" required><br>
     <input type="hidden" id="userId" name="userId" th:value="${loggedInUserId}" />
     <button type="submit">Add Car</button>
 </form>

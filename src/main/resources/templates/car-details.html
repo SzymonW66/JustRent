@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Details</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .car-image {
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .rental-prices {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Car Details</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <img class="card-img-top car-image" th:src="@{|data:photo/jpeg;base64,${car.image != null ? car.image : '/static/img/nophoto.jpg'}|}" alt="Car Image">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${car.brand + ' ' + car.model}"></h5>
+          <p class="card-text" th:text="${'Year of Production: ' + car.year}"></p>
+          <p class="card-text" th:text="${'Number Plate: ' + car.registrationNumber}"></p>
+          <p class="card-text" th:text="${'Mileage: ' + car.mileage + ' km'}"></p>
+          <p class="card-text" th:text="${'Engine Capacity: ' + car.engineCapacity + 'L, ' + car.power + 'HP'}"></p>
+          <p class="card-text" th:text="${'Fuel Type: ' + car.fuelType}"></p>
+          <p class="card-text" th:text="${'Dimensions: ' + car.dimensions + 'cm'}"></p>
+          <p class="card-text" th:text="${'Number of Seats: ' + car.numberOfSeats}"></p>
+          <div class="rental-prices">
+            <p class="card-text text-success font-weight-bold" th:text="${'Hourly Rental Price: $' + car.rentalPriceHourly}"></p>
+            <p class="card-text" th:text="${'Daily Rental Price (up to 5 days): $' + car.rentalPriceDailyUpTo5}"></p>
+            <p class="card-text" th:text="${'Daily Rental Price (5 to 10 days): $' + car.rentalPriceDaily5To10}"></p>
+            <p class="card-text" th:text="${'Daily Rental Price (above 10 days): $' + car.rentalPriceDailyAbove10}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <a href="/car-list" class="btn btn-primary">Back to Car List</a>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

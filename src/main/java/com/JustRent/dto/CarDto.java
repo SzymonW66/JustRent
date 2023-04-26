@@ -2,6 +2,7 @@ package com.JustRent.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CarDto {
 
@@ -64,6 +65,10 @@ public class CarDto {
     @NotNull
     @NotEmpty
     private Long userId;
+
+    @NotNull
+    @NotEmpty
+    private MultipartFile photo;
 
     public String getBrand() {
         return brand;
@@ -183,5 +188,13 @@ public class CarDto {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
     }
 }

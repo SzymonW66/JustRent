@@ -1,15 +1,16 @@
 package com.JustRent.services;
 
 import com.JustRent.dto.CarDto;
-import com.JustRent.dto.UserDto;
 import com.JustRent.models.Car;
-import com.JustRent.models.User;
 import com.JustRent.repositories.CarRepository;
-import com.JustRent.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,12 @@ public class CarService implements ICarServices {
        car.setRentalPriceDailyUpTo5(carDto.getRentalPriceDailyUpTo5());
        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDaily5To10());
        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDailyAbove10());
-       car.setUserId(loggedInUserId);
+        try {
+            car.setImage(carDto.getPhoto().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        car.setUserId(loggedInUserId);
        return carRepository.save(car);
     }
 
@@ -69,7 +75,19 @@ public class CarService implements ICarServices {
         carDto.setRentalPriceDailyUpTo5(car.getRentalPriceDailyUpTo5());
         carDto.setRentalPriceDaily5To10(car.getRentalPriceDaily5To10());
         carDto.setRentalPriceDailyAbove10(car.getRentalPriceDailyAbove10());
+        carDto.setPhoto((MultipartFile) new ByteArrayResource(car.getImage()));
+        byte[] image = car.getImage();
+        MultipartFile photo = new MockMultipartFile("photo", image);
+        carDto.setPhoto(photo);
         carDto.setUserId(car.getUserId());
         return carDto;
+    }
+
+    public List<Car> getAllCars() {
+        return carRepository.findAll();
+    }
+
+    public Car getCarById(Long id) {
+        return carRepository.findById(id).get();
     }
 }
