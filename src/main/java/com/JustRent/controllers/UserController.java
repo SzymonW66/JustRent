@@ -144,7 +144,10 @@ public class UserController {
     }
 
     @GetMapping("/car-list")
-    public String displayCarList(Model model) {
+    public String displayCarList(Model model, HttpSession session) {
+        Long loggedInUserId = (Long) session.getAttribute("userId");
+        System.out.println(loggedInUserId + "homepage");
+
         List<Car> cars = carService.getAllCars();
         for (Car car : cars) {
             byte[] imageBytes = car.getImage();
@@ -152,19 +155,21 @@ public class UserController {
             car.setPhotoBase64(base64Image);
         }
         model.addAttribute("cars", cars);
+        model.addAttribute("userId", loggedInUserId);
         return "car-list";
     }
 
     @GetMapping("/car-details/{id}")
-    public String getCarDetails(@PathVariable("id") Long id, Model model) {
+    public String getCarDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
+        Long loggedInUserId = (Long) session.getAttribute("userId");
+        System.out.println(loggedInUserId + "homepage");
         Car car = carService.getCarById(id);
         String base64Image = Base64.getEncoder().encodeToString(car.getImage());
         car.setPhotoBase64(base64Image);
         model.addAttribute("car", car);
+        model.addAttribute("userId", loggedInUserId);
         return "car-details";
     }
 }
 
-//Mam przekazane nr Id po logowaniu
-// Przycisk logout będzie po prosty przypisywał null dla  i tyle
 
