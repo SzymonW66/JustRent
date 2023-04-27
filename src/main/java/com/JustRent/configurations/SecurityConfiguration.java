@@ -10,11 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,26 +22,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @EnableMethodSecurity
 @NoArgsConstructor(force = true)
 public class SecurityConfiguration {
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user1 = User.withUsername("user1")
-                .password("user1Pass")
-                .roles("USER")
-                .build();
-        UserDetails user2 = User.withUsername("user2")
-                .password("user2Pass")
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password("adminPass")
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
-    //dodanie wbudowanych dwóch userów i admina do testów 1
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -52,29 +29,17 @@ public class SecurityConfiguration {
                 .requestMatchers("/start").permitAll()
                 .requestMatchers("/login/**").permitAll()
                 .requestMatchers("/registration/**").permitAll()
-//                .requestMatchers("/add-car/**").hasRole("USER")
-//                .requestMatchers("/admin/**").permitAll()
-//                .requestMatchers("/anonymous*").permitAll()
-//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/homepage", true)
                 .failureUrl("/loginError");
-//                .and()
-//                .logout()
-//                .logoutUrl("/perform_logout")
-//                .deleteCookies("JSESSIONID");
         return http.build();
     }
-    //  filtrowanie kto ma jaką role i na co wchodzi
-
     @ControllerAdvice
     public class ErrorController {
-
         private static Logger logger = (Logger) LoggerFactory.getLogger(ErrorController.class);
-
         @ExceptionHandler(Throwable.class)
         @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
         public String exception(final Throwable throwable, final Model model) {
@@ -83,13 +48,11 @@ public class SecurityConfiguration {
             model.addAttribute("errorMessage", errorMessage);
             return "error";
         }
-
     }
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {

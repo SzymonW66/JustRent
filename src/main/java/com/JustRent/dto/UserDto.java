@@ -61,5 +61,4 @@ public class UserDto {
         this.email = email;
     }
 
-    //pozwala na zebranie danych do obiektu
 }

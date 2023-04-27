@@ -10,8 +10,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -24,34 +22,16 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @ComponentScan
 public class WebMvcConfiguration implements ApplicationContextAware, WebMvcConfigurer {
     private ApplicationContext applicationContext;
+
     public WebMvcConfiguration() {
         super();
     }
+
     public void setApplicationContext(final ApplicationContext applicationContext)
             throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        WebMvcConfigurer.super.addResourceHandlers(registry);
-        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-
-    }
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("templates/login").setViewName("login");
-        registry.addViewController("templates/registration").setViewName("registration");
-        registry.addViewController("templates/home").setViewName("start");
-    }
-
-
-//    @Bean
-//    public static PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -66,6 +46,7 @@ public class WebMvcConfiguration implements ApplicationContextAware, WebMvcConfi
         registry.addFormatter(dateFormatter());
 
     }
+
     @Bean
     public DateFormatter dateFormatter() {
         return new DateFormatter();
@@ -85,9 +66,10 @@ public class WebMvcConfiguration implements ApplicationContextAware, WebMvcConfi
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
     }
+
     @Bean
-   public ClassLoaderTemplateResolver classLoaderTemplateResolver() {
-       ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
+    public ClassLoaderTemplateResolver classLoaderTemplateResolver() {
+        ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
         secondaryTemplateResolver.setPrefix("templates/");
         secondaryTemplateResolver.setSuffix(".html");
         secondaryTemplateResolver.setTemplateMode(TemplateMode.HTML);

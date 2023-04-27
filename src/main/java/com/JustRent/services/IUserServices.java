@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface IUserServices {
     User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException;
+
     User findUserByEmail(String email);
+
     List<UserDto> findAllUsers();
 
 }

@@ -15,10 +15,6 @@ import org.springframework.stereotype.Service;
 
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +56,8 @@ public class UserService implements IUserServices {
                 .map((user) -> mapToUserDto(user))
                 .collect(Collectors.toList());
     }
-    private UserDto mapToUserDto(User user){
+
+    private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setName(str[0]);
@@ -81,11 +78,9 @@ public class UserService implements IUserServices {
             SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
             Long userId = template.queryForObject(query, param, Long.class);
             return userId;
-        }
-        else
+        } else
             return null;
     }
-
 
 
 }

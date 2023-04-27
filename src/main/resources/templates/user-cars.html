@@ -44,12 +44,16 @@
         <li class="nav-item">
           <a class="nav-link" th:href="@{/your-cars}">Your cars</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}">Logout</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
 <div class="container">
+  <h2>Your cars for rent</h2>
   <div class="row">
     <th:block th:each="car : ${cars}">
       <div class="col-md-4 car-tile">

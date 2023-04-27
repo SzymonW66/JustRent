@@ -1,21 +1,15 @@
 package com.JustRent.controllers;
 
-import com.JustRent.configurations.SecurityConfiguration;
-import com.JustRent.configurations.WebMvcConfiguration;
 import com.JustRent.dto.CarDto;
 import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.Car;
 import com.JustRent.models.User;
-import com.JustRent.repositories.CarRepository;
 import com.JustRent.repositories.UserRepository;
 import com.JustRent.services.CarService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,17 +32,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final WebMvcConfiguration webMvcConfiguration;
-    private final SecurityConfiguration securityConfiguration;
-    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final CarService carService;
-    private final HttpSession httpSession;
-    private final CarRepository carRepository;
 
     @GetMapping("/start")
     public String home() {
-             return "start";
+        return "start";
     }
 
     @GetMapping("/login")
@@ -99,24 +88,17 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         User user = userRepository.findByEmailAndPassword(username, password);
-
-        // jeśli użytkownik nie został znaleziony, zwróć błąd logowania
         if (user == null) {
             return "redirect:/login?error";
         }
-
-        // jeśli użytkownik został znaleziony, utwórz listę ról i dodaj rolę "user"
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        // utwórz obiekt Authentication z danymi użytkownika i ustaw go jako zalogowanego w SecurityContextHolder
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, password, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println(SecurityContextHolder.getContext());
         session.setAttribute("userId", user.getId());
         System.out.println(user.getId());
         System.out.println(model);
-        // przekieruj na stronę główną po udanej autentykacji
         return "redirect:/homepage";
     }
 
@@ -125,23 +107,20 @@ public class UserController {
         Long loggedInUserId = (Long) session.getAttribute("userId");
         if (loggedInUserId == null) {
             System.out.println("Unable to get user ID from session.");
-            return "redirect:/homepage"; // nie udało się pobrać ID użytkownika, przekieruj na stronę główną
+            return "redirect:/homepage";
         }
-
         carService.addNewCarToRent(carDto, loggedInUserId);
         return "redirect:/homepage";
     }
 
     @GetMapping("/add-car")
-    private String addNewCar(Model model, HttpSession session ) {
+    private String addNewCar(Model model, HttpSession session) {
         Long loggedInUserId = (Long) session.getAttribute("userId");
-
         System.out.println(loggedInUserId + " " + "loggedInUserID");
         if (loggedInUserId == null) {
-            System.out.println("Unable to get user ID for id ") ;
-            return "redirect:/homepage"; // nie udało się pobrać ID użytkownika, przekieruj na stronę główną
+            System.out.println("Unable to get user ID for id ");
+            return "redirect:/homepage";
         }
-
         model.addAttribute("userId", loggedInUserId);
         model.addAttribute("car", new CarDto());
         return "addNewCarToRent";
@@ -151,7 +130,6 @@ public class UserController {
     public String displayCarList(Model model, HttpSession session) {
         Long loggedInUserId = (Long) session.getAttribute("userId");
         System.out.println(loggedInUserId + "homepage");
-
         List<Car> cars = carService.getAllCars();
         for (Car car : cars) {
             byte[] imageBytes = car.getImage();
@@ -162,7 +140,6 @@ public class UserController {
         model.addAttribute("userId", loggedInUserId);
         return "car-list";
     }
-
     @GetMapping("/car-details/{id}")
     public String getCarDetails(@PathVariable("id") Long id, Model model, HttpSession session) {
         Long loggedInUserId = (Long) session.getAttribute("userId");
@@ -176,9 +153,9 @@ public class UserController {
     }
 
     @GetMapping("/your-cars")
-    public String getYourCarList(Model model, HttpSession session){
+    public String getYourCarList(Model model, HttpSession session) {
         Long loggedInUserId = (Long) session.getAttribute("userId");
-        List <Car> cars = carService.getCarsByUserId(loggedInUserId);
+        List<Car> cars = carService.getCarsByUserId(loggedInUserId);
         for (Car car : cars) {
             byte[] imageBytes = car.getImage();
             String base64Image = Base64.getEncoder().encodeToString(imageBytes);
@@ -186,7 +163,6 @@ public class UserController {
         }
         model.addAttribute("cars", cars);
         model.addAttribute("userId", loggedInUserId);
-
         return "user-cars";
     }
 
@@ -202,22 +178,16 @@ public class UserController {
         return "car-details-delete";
     }
 
-//    @PostMapping("/delete-car")
-//    public String deleteCar(@RequestParam("carId") Long carId) {
-//        carService.deleteById(carId);
-//        return "redirect:/car-list";
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
-//        carService.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
-@PostMapping("/car/{id}/delete")
-public String deleteCar(@PathVariable("id") Long id) {
-    carService.deleteById(id);
-    return "redirect:/your-cars";
-}
+    @PostMapping("/car/{id}/delete")
+    public String deleteCar(@PathVariable("id") Long id) {
+        carService.deleteById(id);
+        return "redirect:/your-cars";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "start";
+    }
 }
 
 

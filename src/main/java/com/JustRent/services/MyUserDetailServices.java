@@ -1,4 +1,5 @@
 package com.JustRent.services;
+
 import com.JustRent.models.User;
 import com.JustRent.repositories.UserRepository;
 import jakarta.transaction.Transactional;

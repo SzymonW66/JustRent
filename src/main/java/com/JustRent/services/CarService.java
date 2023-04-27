@@ -23,28 +23,28 @@ public class CarService implements ICarServices {
 
     @Override
     public Car addNewCarToRent(CarDto carDto, Long loggedInUserId) {
-       Car car = new Car();
-       car.setBrand(carDto.getBrand());
-       car.setModel(carDto.getModel());
-       car.setYear(carDto.getYear());
-       car.setRegistrationNumber(carDto.getRegistrationNumber());
-       car.setMileage(carDto.getMileage());
-       car.setEngineCapacity(carDto.getEngineCapacity());
-       car.setFuelType(carDto.getFuelType());
-       car.setPower(carDto.getPower());
-       car.setDimensions(carDto.getDimensions());
-       car.setNumberOfSeats(carDto.getNumberOfSeats());
-       car.setRentalPriceHourly(carDto.getRentalPriceHourly());
-       car.setRentalPriceDailyUpTo5(carDto.getRentalPriceDailyUpTo5());
-       car.setRentalPriceDailyAbove10(carDto.getRentalPriceDaily5To10());
-       car.setRentalPriceDailyAbove10(carDto.getRentalPriceDailyAbove10());
+        Car car = new Car();
+        car.setBrand(carDto.getBrand());
+        car.setModel(carDto.getModel());
+        car.setYear(carDto.getYear());
+        car.setRegistrationNumber(carDto.getRegistrationNumber());
+        car.setMileage(carDto.getMileage());
+        car.setEngineCapacity(carDto.getEngineCapacity());
+        car.setFuelType(carDto.getFuelType());
+        car.setPower(carDto.getPower());
+        car.setDimensions(carDto.getDimensions());
+        car.setNumberOfSeats(carDto.getNumberOfSeats());
+        car.setRentalPriceHourly(carDto.getRentalPriceHourly());
+        car.setRentalPriceDailyUpTo5(carDto.getRentalPriceDailyUpTo5());
+        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDaily5To10());
+        car.setRentalPriceDailyAbove10(carDto.getRentalPriceDailyAbove10());
         try {
             car.setImage(carDto.getPhoto().getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         car.setUserId(loggedInUserId);
-       return carRepository.save(car);
+        return carRepository.save(car);
     }
 
     @Override
@@ -91,6 +91,7 @@ public class CarService implements ICarServices {
     public Car getCarById(Long id) {
         return carRepository.findById(id).get();
     }
+
     public List<Car> getCarsByUserId(Long userId) {
         return carRepository.findByUserId(userId);
     }

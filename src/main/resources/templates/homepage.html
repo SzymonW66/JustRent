@@ -9,6 +9,27 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .btn {
+            width: 100%;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 50px;
+        }
+
 
     </style>
 </head>
@@ -31,11 +52,27 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/your-cars}">Your cars</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <a th:href="@{/add-car}" class="btn btn-primary btn-lg mb-3">Add New Car</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a th:href="@{/car-list}" class="btn btn-success btn-lg mb-3">Cars for rent</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a th:href="@{/your-cars}" class="btn btn-success btn-lg mb-3">Your cars</a>
+        </div>
+    </div>
+</div>
 
 </body>
 
