@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Three Buttons</title>
+    <title>Add new car | JustRent</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -48,11 +48,28 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/homepage}">JustRent</a>
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" th:href="@{/add-car}">Add New Car</a>
-        </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/homepage}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/add-car}">Add New Car</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/car-list}">Cars for rent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" >Check Your cars</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
+
 <div style="margin-bottom: 30px">
 
 </div>
