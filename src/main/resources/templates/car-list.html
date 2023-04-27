@@ -42,7 +42,7 @@
           <a class="nav-link" th:href="@{/car-list}">Cars for rent</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" >Check Your cars</a>
+          <a class="nav-link" th:href="@{/your-cars}">Your cars</a>
         </li>
       </ul>
     </div>
@@ -50,6 +50,7 @@
 </nav>
 
 <div class="container">
+  <h2> All cars available for rent</h2>
   <div class="row">
     <!-- Loop through each car and create a tile -->
     <th:block th:each="car : ${cars}">

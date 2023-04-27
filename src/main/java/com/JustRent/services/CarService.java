@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -89,5 +90,17 @@ public class CarService implements ICarServices {
 
     public Car getCarById(Long id) {
         return carRepository.findById(id).get();
+    }
+    public List<Car> getCarsByUserId(Long userId) {
+        return carRepository.findByUserId(userId);
+    }
+
+    public void deleteById(Long id) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        if (optionalCar.isPresent()) {
+            carRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Car not found with id: " + id);
+        }
     }
 }

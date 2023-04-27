@@ -7,11 +7,14 @@ import com.JustRent.dto.UserDto;
 import com.JustRent.exceptions.UserAlreadyExistException;
 import com.JustRent.models.Car;
 import com.JustRent.models.User;
+import com.JustRent.repositories.CarRepository;
 import com.JustRent.repositories.UserRepository;
 import com.JustRent.services.CarService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,6 +44,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final CarService carService;
     private final HttpSession httpSession;
+    private final CarRepository carRepository;
 
     @GetMapping("/start")
     public String home() {
@@ -170,6 +174,50 @@ public class UserController {
         model.addAttribute("userId", loggedInUserId);
         return "car-details";
     }
+
+    @GetMapping("/your-cars")
+    public String getYourCarList(Model model, HttpSession session){
+        Long loggedInUserId = (Long) session.getAttribute("userId");
+        List <Car> cars = carService.getCarsByUserId(loggedInUserId);
+        for (Car car : cars) {
+            byte[] imageBytes = car.getImage();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            car.setPhotoBase64(base64Image);
+        }
+        model.addAttribute("cars", cars);
+        model.addAttribute("userId", loggedInUserId);
+
+        return "user-cars";
+    }
+
+    @GetMapping("/car-details-delete/{id}")
+    public String getCarDetailsDelete(@PathVariable("id") Long id, Model model, HttpSession session) {
+        Long loggedInUserId = (Long) session.getAttribute("userId");
+        System.out.println(loggedInUserId + "homepage");
+        Car car = carService.getCarById(id);
+        String base64Image = Base64.getEncoder().encodeToString(car.getImage());
+        car.setPhotoBase64(base64Image);
+        model.addAttribute("car", car);
+        model.addAttribute("userId", loggedInUserId);
+        return "car-details-delete";
+    }
+
+//    @PostMapping("/delete-car")
+//    public String deleteCar(@RequestParam("carId") Long carId) {
+//        carService.deleteById(carId);
+//        return "redirect:/car-list";
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
+//        carService.deleteById(id);
+//        return ResponseEntity.noContent().build();
+//    }
+@PostMapping("/car/{id}/delete")
+public String deleteCar(@PathVariable("id") Long id) {
+    carService.deleteById(id);
+    return "redirect:/your-cars";
+}
 }
 
 
