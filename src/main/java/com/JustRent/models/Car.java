@@ -14,7 +14,7 @@ import lombok.*;
 @Table(name = "cars")
 public class Car {
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "brand")
@@ -65,6 +65,7 @@ public class Car {
 
     @Column(name = "UserId")
     private Long userId;
+    private String photoBase64;
 
     public Long getId() {
         return id;
@@ -200,6 +201,14 @@ public class Car {
     }
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public void setPhotoBase64(String photoBase64) {
+        this.photoBase64 = photoBase64;
+    }
+
+    public String getPhotoBase64() {
+        return photoBase64;
     }
 }
 

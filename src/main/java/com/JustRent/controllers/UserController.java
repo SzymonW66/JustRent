@@ -26,6 +26,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.JustRent.services.UserService;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -143,8 +144,13 @@ public class UserController {
     }
 
     @GetMapping("/car-list")
-    public String getCars(Model model) {
+    public String displayCarList(Model model) {
         List<Car> cars = carService.getAllCars();
+        for (Car car : cars) {
+            byte[] imageBytes = car.getImage();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            car.setPhotoBase64(base64Image);
+        }
         model.addAttribute("cars", cars);
         return "car-list";
     }
@@ -152,6 +158,8 @@ public class UserController {
     @GetMapping("/car-details/{id}")
     public String getCarDetails(@PathVariable("id") Long id, Model model) {
         Car car = carService.getCarById(id);
+        String base64Image = Base64.getEncoder().encodeToString(car.getImage());
+        car.setPhotoBase64(base64Image);
         model.addAttribute("car", car);
         return "car-details";
     }

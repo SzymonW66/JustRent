@@ -27,11 +27,11 @@
     <th:block th:each="car : ${cars}">
       <div class="col-md-4 car-tile">
         <div class="card">
-          <img class="card-img-top car-image" th:src="@{|data:image/jpeg;base64,${car.image != null ? car.image : 'nophoto.jpg'}|}" alt="Car Image">
+          <img th:src="'data:image/jpeg;base64,' + ${car.getPhotoBase64()}" />
           <div class="card-body">
             <h5 class="card-title" th:text="${car.brand + ' ' + car.model}"></h5>
-            <p class="card-text" th:text="${'Year of Production:\n' + car.year}"></p>
-            <p class="card-text" th:text="${'Number plate:\n' + car.registrationNumber}"></p>
+            <p class="card-text" th:text="${'Year of Production: ' + car.year}"></p>
+            <p class="card-text" th:text="${'Number plate: ' + car.registrationNumber}"></p>
             <p class="card-text" th:text="${'Mileage: ' + car.mileage + ' km'}"></p>
             <p class="card-text" th:text="${'Engine Capacity: ' + car.engineCapacity + 'L, ' + car.power + 'HP'}"></p>
             <p class="card-text" th:text="${'Fuel Type: ' + car.fuelType}"></p>
