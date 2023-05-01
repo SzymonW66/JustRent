@@ -37,7 +37,7 @@ public class UserService implements IUserServices {
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
         user.setPassword(userDto.getPassword());
-        user.setEmail(passwordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
         user.setRole("user");
 
         return repository.save(user);
@@ -69,18 +69,5 @@ public class UserService implements IUserServices {
     private boolean emailExists(String email) {
         return repository.findByEmail(email) != null;
     }
-
-    public Long getUserIdByEmail(String email) {
-        System.out.println(email);
-        if (emailExists(email) == true) {
-            String query = "SELECT id FROM user WHERE email = :email";
-            NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-            SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-            Long userId = template.queryForObject(query, param, Long.class);
-            return userId;
-        } else
-            return null;
-    }
-
 
 }
